@@ -15,8 +15,10 @@ const app = express()
 
 mongoose.connect('mongodb://localhost:27017/graph')
 
+//* middleware
 app.use(express.static(path.join(__dirname, './imageUpload')))
 
+//* queries
 let typeDefs = gql `
 
   type Query {
@@ -90,6 +92,10 @@ let typeDefs = gql `
   }
 
 `
+
+//? end of queries
+
+//* start validation
 
 let resolvers = {
     Query: {
@@ -208,6 +214,8 @@ let saveImage = ({ stream, filename }) => {
             .on('finish', () => resolve({ filePath }))
     })
 }
+
+//* end of validation
 
 const startApolloServer = async() => {
     const server = new ApolloServer({
